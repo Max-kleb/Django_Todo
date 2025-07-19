@@ -20,29 +20,38 @@ A simple, multi-user Django To‑Do application
 ### ⚙️ Installation & Setup
 
 1. **Clone the repository**
-
-   `git clone https://github.com/max-kleb/Django-Todo.git`
-   `cd Django-Todo`
+   ```
+   git clone https://github.com/max-kleb/Django-Todo.git
+   cd Django-Todo
+   ```
 
 2. **Create & activate a virtual environment**
 
-   `python3 -m venv venv`
-   `source venv/bin/activate` *(macOS/Linux)*
+   ```
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-3. **Install dependencies**
+4. **Install dependencies**
 
-   `pip install -r requirements.txt`
+   ```
+   pip install -r requirements.txt
+   ```
 
-4. **Apply database migrations**
+6. **Apply database migrations**
 
-   `python manage.py makemigrations`
-   `python manage.py migrate`
+   ```
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
 
-6. **Run the development server**
+8. **Run the development server**
 
-   `python manage.py runserver`
+   ```
+   python manage.py runserver
+   ```
 
-7. **Open in your browser**
+10. **Open in your browser**
 
    Visit: `http://127.0.0.1:8000/`
 
