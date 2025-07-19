@@ -19,23 +19,24 @@ def signup(request):
         return JsonResponse({'erreur':'requete mal formee' })
     
     email = data.get('email')
-    nom = data.get('nom', '')
-    mot_de_passe = data.get('mot_de_passe')
+    name = data.get('name', '')
+    password = data.get('password')
 
     #verification des parametres obligatoires
-    if not email or not mot_de_passe:
-        return JsonResponse({'erreur':'email et mot_de_passe sont obligatoires'}, status=400)
+    if not email or not password:
+        return JsonResponse({'erreur':'email et password sont obligatoires'}, status=400)
 
     #verification de l'unicite de l'email
-    if Utilisateur.objects.filter(email=email).exists():
+    if Utilisateur.objects.filter(email = email).exists():
         return JsonResponse({'erreur':'Email deja existant'}, status=400)
     
-    if len(mot_de_passe)< 6:
+    if len(password)< 6:
         return JsonResponse({'erreur':'mot de passe invalide (minimum 6 caracteres)'})
     
-    #creation de l'utilisateur
-    utilisateur = Utilisateur(email = email,nom=nom, mot_de_passe=mot_de_passe)
-    utilisateur.save()
+    #creation de l'user
+    user = Utilisateur(email = email,name=name, password=password)
+    user.save()
+    return JsonResponse({'message':'signup reussi !!'}, status=200)
 
 
 
@@ -46,21 +47,24 @@ def login(request):
         return JsonResponse({'erreur':'methode non valide'}, status=405)
     
     try:
-        data = json.loads.get(request.body)
+        data = json.loads(request.body)
 
     except json.JSONDecodeError:     
-        return JsonResponse({'erreur':'requet mal formee'}, status=400)
+        return JsonResponse({'erreur':'requete mal formee'}, status=400)
 
     email = data.get('email')
-    mdp = data.get('mot_de_passe')
+    mdp = data.get('password')
 
     if not email or not mdp :
-        return JsonResponse({'erreur':'email et le mot de passe sont oblifatoires'}, status=400)
+        return JsonResponse({'erreur':'email et le mot de passe sont obligatoires'}, status=400)
 
     try:
-        utilisateur = Utilisateur.objects.get(email=email)
+        user = Utilisateur.objects.get(email = email)
     except Utilisateur.DoesNotExist:
-        return JsonResponse({'erreur':'Identifiants invalides'}, satus=401)    
+        return JsonResponse({'erreur':'Identifiants invalides'}, status=401)    
     
-    if not check_password(mdp, utilisateur.mot_de_passe):
-        return JsonResponse({'message':'Connexiion reussie', 'id':utilisateur.id}, status=200)
+    if not check_password(mdp, user.password):
+        return JsonResponse({'erreur':'Mot de passe ne correspond pas'}, status=401)
+    
+    else :
+        return JsonResponse({'message':'Connexion etablie', 'id':user.id}, status=200)
