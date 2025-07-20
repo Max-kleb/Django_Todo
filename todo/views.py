@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from authentification.models import Utilisateur
 from .models import Liste , Tache
@@ -8,8 +8,6 @@ import json
 # recuperer les taches d'une liste precise
 @csrf_exempt
 def display_list(request):
-    if request.method != 'GET':
-        return JsonResponse({'erreur':'methode non valide !!'}, status=405)
 
     try:
         data = json.loads(request.body)
@@ -31,8 +29,6 @@ def display_list(request):
     
 @csrf_exempt
 def create_list (request):
-    if request.method != 'POST':
-        return JsonResponse({'erreur':'methode non valide !!'}, status=405)
 
     try:
         data = json.loads(request.body)
@@ -51,8 +47,6 @@ def create_list (request):
 
 @csrf_exempt
 def update_list(request):
-    if request.method != 'PUT':
-        return JsonResponse({'erreur':'methode non valide !!'}, status=405)
 
     try:
         data = json.loads(request.body)
@@ -73,9 +67,7 @@ def update_list(request):
 
 @csrf_exempt
 def delete_list(request):
-    if request.method != 'DELETE':
-        return JsonResponse({'erreur':'methode non valide !!'}, status=405)
-
+    
     try:
         data = json.loads(request.body)
         list_id = data.get("list_id")
@@ -86,3 +78,17 @@ def delete_list(request):
         return JsonResponse({'error': 'Liste non trouvée'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+    
+
+def route(request):
+    if request.method == 'POST':
+        return create_list()
+    elif request.method == 'GET':
+        return display_list()
+    elif request.method == 'PUT':
+        return update_list()
+    elif request.method == 'DELETE':
+        return delete_list()
+    else:
+        return HttpResponseNotAllowed(["GET","POST","PUT","DELETE"])
+    
