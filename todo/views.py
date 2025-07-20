@@ -28,16 +28,7 @@ def display_list(request):
 
 
 
-    # if request.method != 'GET': 
-    #     return JsonResponse({'erreur':'methode non valide !!'})
-    # if list_id :
-    #     try:
-    #         List = Liste.objects.get(pk=list_id)
-    #         taches = list(List.taches.values())
-    #         return ({'liste': List.nom, 'taches': taches})
-    #     except Liste.DoesNotExist :
-    #         return JsonResponse ({'erreur': 'liste non trouvee'},  status = 404)     
-
+    
 @csrf_exempt
 def create_list (request):
     if request.method != 'POST':
