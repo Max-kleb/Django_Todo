@@ -68,18 +68,18 @@ def update_list(request, list_id):
     
 
 @csrf_exempt
-def delete_list(request, list_id):
+def delete_list(request,list_id):
     if request.method != 'DELETE':
         return JsonResponse({'erreur':'method non authorisée'})
     try:
         data = json.loads(request.body)
-        List = List.objects.get(pk=list_id, user_id = data['user_id'])
+        List = Liste.objects.get(pk=list_id, user_id = data.get('user_id'))
         List.delete()
         return JsonResponse({'message': 'Liste supprimée avec succès'}, status=200)
     except Liste.DoesNotExist:
         return JsonResponse({'error': 'Liste non trouvée'}, status=404)
     except json.JSONDecodeError :
         return JsonResponse({'erreur': 'requete json mal formule'})
-    except Exception:
-        return JsonResponse({'error': 'Unknow error'}, status=400)
+    except Exception as e :
+        return JsonResponse({'error': str(e) }, status=400)
     
