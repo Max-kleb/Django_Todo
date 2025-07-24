@@ -7,33 +7,31 @@ import json
 
 # recuperer les taches d'une liste precise
 @csrf_exempt
-def display_list(request):
+def display_list(request,user_id):
 
-    try:
-        data = json.loads(request.body)
-    except Exception as e:
-        return JsonResponse({'erreur':str(e)}, status = 400)  
-     
-    user_id = data.get('user_id')
     if not user_id:
         return JsonResponse({'erreur':' utilisateur requis !!'})
     
     try: 
-        List = Liste.objects.filter(user_id = user_id.values())
-        return JsonResponse({'listes':list(List)}, safe = False) # permet a JsonRsponce de renvoyer des elements autres que des dictionnaires
-    except Exception as e:
-        return JsonResponse({'erreur': str(e)}, status = 400)
+        List = Liste.objects.filter(user_id = user_id).values()
+        return JsonResponse({'listes':list(List), 'user_id':user_id}, safe = False) # permet a JsonRsponce de renvoyer des elements autres que des dictionnaires
+    except Exception:
+        return JsonResponse({'erreur': 'Unknow error'}, status = 400)
 
 
 
     
 @csrf_exempt
 def create_list (request):
+    if request.method != 'POST':
+        return JsonResponse({'erreur':'method non authorisée'})
 
     try:
         data = json.loads(request.body)
-        user = Utilisateur.objects.get(pk=data["user_id"] )
-        List = Liste.objects.create(nom=data["nom"], user = user)
+        user = Utilisateur.objects.get(pk=data.get("user_id") )
+        List = Liste.objects.create(nom=data.get("nom"), user = user)
+
+        List.save()
         return JsonResponse ({
             'id':List.id,
             'nom':List.nom,
@@ -42,53 +40,46 @@ def create_list (request):
     
     except Utilisateur.DoesNotExist :
         return JsonResponse({'erreur': 'user not found'}, status = 404)
-    except Exception as e:
-        return JsonResponse({'erreur': str(e)}, status = 400)    
+    except json.JSONDecodeError :
+        return JsonResponse({'erreur': 'requete json mal formulee'})
+    
 
-@csrf_exempt
-def update_list(request):
-
+@csrf_exempt 
+def update_list(request, list_id):
+    if request.method != 'PUT':
+        return JsonResponse({'erreur':'method non authorisée'})
     try:
         data = json.loads(request.body)
-        list_id = data.get("list_id")
-        List = Liste.objects.get(pk=list_id, user_id = data['user_id'])
-        List.nom = data.get('nom', List.nom)
+        #list_id = data.get("list_id")
+        List = Liste.objects.get(pk=list_id, user_id = data.get("user_id"))
+        List.nom = data.get("nom", List.nom)
         List.save()
         return JsonResponse({
                 'id': List.id,
-                'nom': List.titre,
+                'nom': List.nom,
                 'user_id': List.user.id 
             })
     except Liste.DoesNotExist:
-            return JsonResponse({'erreur': 'Liste non trouvée'}, status=404)
-    except Exception as e:
-            return JsonResponse({'erreur': str(e)}, status=400)
+        return JsonResponse({'erreur': 'Liste non trouvée'}, status=404)
+    except json.JSONDecodeError :
+        return JsonResponse({'erreur': 'requete json mal formule'})
+    except Exception:
+        return JsonResponse({'erreur': 'Unknowed error'}, status=400)
     
 
 @csrf_exempt
-def delete_list(request):
-    
+def delete_list(request, list_id):
+    if request.method != 'DELETE':
+        return JsonResponse({'erreur':'method non authorisée'})
     try:
         data = json.loads(request.body)
-        list_id = data.get("list_id")
         List = List.objects.get(pk=list_id, user_id = data['user_id'])
         List.delete()
         return JsonResponse({'message': 'Liste supprimée avec succès'}, status=200)
     except Liste.DoesNotExist:
         return JsonResponse({'error': 'Liste non trouvée'}, status=404)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
-    
-
-def route(request):
-    if request.method == 'POST':
-        return create_list()
-    elif request.method == 'GET':
-        return display_list()
-    elif request.method == 'PUT':
-        return update_list()
-    elif request.method == 'DELETE':
-        return delete_list()
-    else:
-        return HttpResponseNotAllowed(["GET","POST","PUT","DELETE"])
+    except json.JSONDecodeError :
+        return JsonResponse({'erreur': 'requete json mal formule'})
+    except Exception:
+        return JsonResponse({'error': 'Unknow error'}, status=400)
     

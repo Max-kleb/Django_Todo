@@ -2,8 +2,7 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.hashers import check_password
-from .models import Utilisateur 
+from .models import Utilisateur  
 
 @csrf_exempt
 def signup(request):
@@ -34,9 +33,11 @@ def signup(request):
         return JsonResponse({'erreur':'mot de passe invalide (minimum 6 caracteres)'})
     
     #creation de l'user
+    
     user = Utilisateur(email = email,name=name, password=password)
+    user.set_password(password)
     user.save()
-    return JsonResponse({'message':'signup reussi !!'}, status=200)
+    return JsonResponse({'message':'signup reussi !!', 'uder_id':user.id}, status=200)
 
 
 
@@ -57,14 +58,16 @@ def login(request):
 
     if not email or not mdp :
         return JsonResponse({'erreur':'email et le mot de passe sont obligatoires'}, status=400)
+    
+ 
 
     try:
         user = Utilisateur.objects.get(email = email)
     except Utilisateur.DoesNotExist:
         return JsonResponse({'erreur':'Identifiants invalides'}, status=401)    
     
-    if not check_password(mdp, user.password):
-        return JsonResponse({'erreur':'Mot de passe ne correspond pas'}, status=401)
+    if not user.checkPassword(mdp):
+        return JsonResponse({'erreur':'Erreur lors du login !!'}, status=401)
     
     else :
         return JsonResponse({'message':'Connexion etablie', 'id':user.id}, status=200)
