@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Utilisateur  
+from .utils import verify_user, generate_token
 
 @csrf_exempt
 def signup(request):
@@ -59,8 +60,6 @@ def login(request):
     if not email or not mdp :
         return JsonResponse({'erreur':'email et le mot de passe sont obligatoires'}, status=400)
     
- 
-
     try:
         user = Utilisateur.objects.get(email = email)
     except Utilisateur.DoesNotExist:
@@ -69,5 +68,15 @@ def login(request):
     if not user.checkPassword(mdp):
         return JsonResponse({'erreur':'Erreur lors du login !!'}, status=401)
     
-    else :
-        return JsonResponse({'message':'Connexion etablie', 'id':user.id}, status=200)
+    token = generate_token(user)
+    return JsonResponse({'message':'Connexion etablie', 'token': token}, status=200)
+    
+ 
+
+
+csrf_exempt    
+def profile(request):
+    user = verify_user(request)
+    if not user:
+        return JsonResponse({'erreur':'Authentifation requise'}, status=401)
+    return JsonResponse({'message':f'Bienvenu {user.email}', 'user_id':user.id})

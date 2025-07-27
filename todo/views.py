@@ -3,11 +3,19 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from authentification.models import Utilisateur
 from .models import Liste , Tache
+from authentification.utils import verify_user
 import json 
 
 # recuperer les taches d'une liste precise
 @csrf_exempt
 def display_list(request,user_id):
+
+    user = verify_user(request)
+    if not user :
+        return JsonResponse({'ereur':'Authentifacation requise !!'}, status = 401)
+
+    if request.method != 'GET':
+        return JsonResponse({'erreur':'method non authorisée'})
 
     if not user_id:
         return JsonResponse({'erreur':' utilisateur requis !!'})
@@ -23,6 +31,11 @@ def display_list(request,user_id):
     
 @csrf_exempt
 def create_list (request):
+
+    user = verify_user(request)
+    if not user :
+        return JsonResponse({'ereur':'Authentifacation requise !!'}, status = 401)
+
     if request.method != 'POST':
         return JsonResponse({'erreur':'method non authorisée'})
 
@@ -46,6 +59,11 @@ def create_list (request):
 
 @csrf_exempt 
 def update_list(request, list_id):
+
+    user = verify_user(request)
+    if not user :
+        return JsonResponse({'ereur':'Authentifacation requise !!'}, status = 401)
+
     if request.method != 'PUT':
         return JsonResponse({'erreur':'method non authorisée'})
     try:
@@ -69,6 +87,11 @@ def update_list(request, list_id):
 
 @csrf_exempt
 def delete_list(request,list_id):
+
+    user = verify_user(request)
+    if not user :
+        return JsonResponse({'ereur':'Authentifacation requise !!'}, status = 401)
+
     if request.method != 'DELETE':
         return JsonResponse({'erreur':'method non authorisée'})
     try:
