@@ -62,11 +62,12 @@ def login(request):
     
     try:
         user = Utilisateur.objects.get(email = email)
+        user.checkPassword(mdp)
     except Utilisateur.DoesNotExist:
-        return JsonResponse({'erreur':'Identifiants invalides'}, status=401)    
+        return JsonResponse({'erreur':'utilisateur non existant'}, status=401)    
     
-    if not user.checkPassword(mdp):
-        return JsonResponse({'erreur':'Erreur lors du login !!'}, status=401)
+    # if not user.checkPassword(mdp):
+    #     return JsonResponse({'erreur':'Erreur lors du login !!'}, status=401)
     
     token = generate_token(user)
     return JsonResponse({'message':'Connexion etablie', 'token': token}, status=200)

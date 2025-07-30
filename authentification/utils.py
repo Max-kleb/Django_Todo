@@ -20,9 +20,9 @@ def verify_user (request):
     
     try :
         token = auth_header.split(' ')[1]
-        decoded = jwt.decode.get('user_id')
-        user_id = decoded.get(id=user_id)
-        return Utilisateur.objects.get(id=user_id)
+        decoded = jwt.decode(token, SECRET_KEY, algorithms = ['HS256'])
+        user_id = decoded.get('user_id')
+        return Utilisateur.objects.get(id = user_id)
     
     except(jwt.ExpiredSignatureError, jwt.InvalidTokenError, IndexError):
         return None

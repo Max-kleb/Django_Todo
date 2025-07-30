@@ -1,48 +1,4 @@
 django>=5.2
+pyjwt 
 
-
-# au passage. L'app s'apelle todo pas TodoList. tu as deja apellé le projet Todolist
-
-# ferme tout les terminaux tu ne laisse que celui la
-
-# retape la commande voir. je ne vois pas
-
-# gagnons en temps
-# copie l'erreur tu colle ici
-
-# je pars dormir. tu finis tu commit je vais voir le matin
-
-# je suis la je parle seul. Ca fait 5 minutes que ton curseur n'a pas bougé on ne sait pas ce que tu fais
-# bref, after
-
-# ERROR: No matching distribution found for django>=5.2 (from -r requirements.txt (line 1))
-
-
-# backslash057@tryvia:~/Desktop/Django_Todo$ source venv/bin/activate
-# (venv) backslash057@tryvia:~/Desktop/Django_Todo$ pip lsit
-# ERROR: unknown command "lsit" - maybe you meant "list"
-# (venv) backslash057@tryvia:~/Desktop/Django_Todo$ pip list
-# Package  Version
-# -------- -------
-# asgiref  3.9.1
-# Django   5.2.4
-# pip      24.0
-# sqlparse 0.5.3
-# (venv) backslash057@tryvia:~/Desktop/Django_Todo$ 
-
-#tape la commande a nouveau. chez moi ca a marché
-# peut etre c'est ta connexion
-# tu as quelle version de python ?
-
-# 3.12.3
-# et ca ne varie pas en fonction des versions.a
-# pour faire simple. a la place de pip isntall -r requirements.txt fais 'pip install django'. que ca prenne la version que ca veux
-
-je te dis que
-# peut etre ca varie selon la version de l'os. j'ai pu installer 
-#asgiref-3.8.1 backports.zoneinfo-0.2.1 django-4.2.23 sqlparse-0.5.3 typing-extensions-4.13.2
-# j'ai cree l'app todo
-# bon maintenat je cree les models 
-
-# ok
 
