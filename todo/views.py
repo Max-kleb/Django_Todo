@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from authentification.models import Utilisateur
-from .models import Liste , Tache
+from .models import Liste
 from authentification.utils import verify_user
 import json 
 
@@ -53,7 +53,7 @@ def create_list (request):
     
     except Utilisateur.DoesNotExist :
         return JsonResponse({'erreur': 'user not found'}, status = 404)
-    except json.JSONDecodeError :
+    except json.JSONDecodeError:
         return JsonResponse({'erreur': 'requete json mal formulee'})
     
 
@@ -62,7 +62,7 @@ def update_list(request, list_id):
 
     user = verify_user(request)
     if not user :
-        return JsonResponse({'ereur':'Authentifacation requise !!'}, status = 401)
+        return JsonResponse({'erreur':'Authentifacation requise !!'}, status = 401)
 
     if request.method != 'PUT':
         return JsonResponse({'erreur':'method non authorisée'})
