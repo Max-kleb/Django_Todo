@@ -1,23 +1,39 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/auth.css">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     <title>Login</title>
 </head>
 <body>
-    <form class="form" action="" method="post">
-        <label for="email">Email :</label>
-        <input type="email" class="information" id="email" name="email" required>
+    <div class="container">
+        <div class="error_frame">Message de succes</div>
 
-        <label for="password">Password :</label>
-        <input type="password" class="information" id="password" name="password" required>
+        <form class="form" action="/auth/login" method="POST">
+            <h2 class="title">Connexion</h2>
+            <div class="form_entry">
+                <label for="email">Email :</label>
+                <input type="email" class="information form_input" id="email" name="email" required>
+            </div>
+    
+            <div class="form_entry">
+                <label for="password">Mot de passe :</label>
+                <input type="password" class="information form_input" id="password" name="password" required>
+            </div>
+    
+            <input type="submit" value="Se connecter" class="submit_btn" />
+            <div class="form_footer">
+                <span>Pas encore de compte?</span>
+                <a href="/signup">S'inscrire</a>
+            </div>
+        </form>
+    </div>
 
-        <button type="submit">Submit</button>
-    </form>
-
-    <script src="{% static 'auth.js' %}" type="text/javascript" ></script>
+    <script src="{% static 'js/auth.js' %}" type="text/javascript" ></script>
+    <!-- <script src="{% static 'js/debug.js' %}" type="text/javascript"></script>  -->
 
 </body>
 </html>

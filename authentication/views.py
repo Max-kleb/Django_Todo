@@ -53,10 +53,10 @@ def login(request):
     try:
         user = Utilisateur.objects.get(email=email)
 
-        if not user.checkPassword(password):
-            return JsonResponse({'success': False, 'message': 'Mot de passe incorrect'}, status=401)
+        if not user or not user.checkPassword(password):
+            raise Utilisateur.DoesNotExist
     except Utilisateur.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Utilisateur non existant'}, status=401)
+        return JsonResponse({'success': False, 'message': 'Email ou mot de passe incorrect'}, status=404)
     
     
     token = generate_token(user)

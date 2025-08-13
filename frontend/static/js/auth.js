@@ -1,11 +1,13 @@
 let form = document.querySelector(".form");
-let information = document.querySelectorAll(".information");
+let inputs = document.querySelectorAll(".form_input");
 
+
+let error_frame = document.querySelector(".error_frame");
 function display_result(message, positive) {
-    information.innertext =message;
-    information.style.display = "block";
+    error_frame.innerText =message;
+    error_frame.classList.add("visible");
 
-    if(positive) information.classList.toggle("positive");
+    if(positive) error_frame.classList.add("positive");
 }
 
 
@@ -19,29 +21,34 @@ function authenticate(path, datas) {
     ).then(response => response.json()
     ).then( (data) => {
         if(data.success){
-           display_result (data.message, true) ;
+           display_result (data.message, true);
+           console.log(data.token);
 
            setTimeout( () => {
             window.location.replace("/");
            }, 1000);
         }
-        else display_result(data.message, false);
+        else {
+            display_result(data.message, false);
+            inputs.forEach(input => input.value="");
+        }
     })
     .catch( e => {
-        display_result("An error occured. Try again later", false);
+        inputs.forEach(input => input.value="");
+        display_result("Une erreur est survenue. Veuillez reessayer", false);
     });
 }
 
 form.addEventListener("submit", event => {
     event.preventDefault();
 
-    information.style.dasplay = "none";
+    error_frame.classList.remove("visible");
 
     let formData = new FormData(event.target);
     let datas = {};
 
-    formData.forEach((KeyboardEvent, value) => {
-        data[value]=key;
+    formData.forEach((key, value) => {
+        datas[value]=key;
     });
 
     console.log(datas);
