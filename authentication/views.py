@@ -33,7 +33,18 @@ def signup(request):
     user.save()
 
     token = generate_token(user)
-    return JsonResponse({'success': True, 'message': 'Inscription réussie', 'token': token}, status=201)
+    
+    response = JsonResponse({'success': True, 'message': 'Inscription réussie'})
+
+    response.set_cookie(
+        key='access_token',
+        value=token,
+        httponly=True,
+        secure=not settings.DEBUG,
+        samesite='Lax',
+        max_age=24 * 3600
+    )
+    # return JsonResponse({'success': True, 'message': 'Inscription réussie', 'token': token}, status=201)
 
 
 
@@ -63,9 +74,8 @@ def login(request):
     
     token = generate_token(user)
 
-    response = Response({'success': True, 'message': 'Connexion etablie', 'token': token})
-
-    response.set_cookies(
+    response = JsonResponse({'success': True, 'message': 'Connexion etablie'})
+    response.set_cookie(
         key='access_token',
         value=token,
         httponly=True,
@@ -74,13 +84,10 @@ def login(request):
         max_age=24 * 3600
     )
 
-
     return response
-   # return JsonResponse({'success': True, 'message': 'Connexion etablie', 'token': token}, status=200)
+    # return JsonResponse({'success': True, 'message': 'Connexion etablie', 'token': token}, status=200)
     
  
-
-
 
 @csrf_exempt
 def profile(request):

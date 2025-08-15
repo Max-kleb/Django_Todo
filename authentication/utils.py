@@ -14,17 +14,20 @@ def generate_token(user) :
 
 
 def verify_user (request):
-    auth_header = request.headers.get('Authorization')
-    if not auth_header:
-        return None
+    # auth_header = request.headers.get('Authorization')
+    # if not auth_header:
+    #     return None
+    # token = auth_header.split(' ')[1]
+
+    token = request.COOKIES.get('access_token')
     
-    try :
-        token = auth_header.split(' ')[1]
-        decoded = jwt.decode(token, SECRET_KEY, algorithms = ['HS256'])
+    if not token: return None
+
+    try:
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         user_id = decoded.get('user_id')
-        return Utilisateur.objects.get(id = user_id)
-    
-    except(jwt.ExpiredSignatureError, jwt.InvalidTokenError, IndexError):
+        return Utilisateur.objects.get(id=user_id)
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
         return None
     except Utilisateur.DoesNotExist:
         return None
