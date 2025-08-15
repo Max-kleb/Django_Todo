@@ -24,7 +24,7 @@ function authenticate(path, datas) {
            display_result (data.message, true);
            console.log(data.token);
 
-           setTimeout( () => {
+            setTimeout( () => {
             window.location.replace("/");
            }, 1000);
         }

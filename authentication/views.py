@@ -1,6 +1,8 @@
 import json
 from django.http import JsonResponse
+from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 from .models import Utilisateur
 from .utils import verify_user, generate_token
 
@@ -61,7 +63,20 @@ def login(request):
     
     token = generate_token(user)
 
-    return JsonResponse({'success': True, 'message': 'Connexion etablie', 'token': token}, status=200)
+    response = Response({'success': True, 'message': 'Connexion etablie', 'token': token})
+
+    response.set_cookies(
+        key='access_token',
+        value=token,
+        httponly=True,
+        secure=not settings.DEBUG,
+        samesite='Lax',
+        max_age=24 * 3600
+    )
+
+
+    return response
+   # return JsonResponse({'success': True, 'message': 'Connexion etablie', 'token': token}, status=200)
     
  
 
