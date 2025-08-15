@@ -7,23 +7,23 @@ let container = document.querySelector(".liste-container");
 let createBtn = document.getElementById(".add-btn")
 
 function loadListes() {
-    fetch('/api/liste')
+    fetch('api/liste')
     .then(response => response.json())
     .then(data => {
         container.innerHTML = "";
 
         data.listes.forEach(l => {
             const liste = document.createElement("div");
-            liste.classlist.add("liste");
+            liste.classList.add("liste");
             
             texte_liste = document.createElement("span");
             texte_liste.innerText = l.nom
 
             boutton_modifier = document.createElement("span");
-            boutton_modifier.classlist.add("bouton-modifier");
+            boutton_modifier.classList.add("bouton-modifier");
 
             boutton_supprimer = document.createElement("span");
-            boutton_supprimer.classlist.add("bouton-supprimer");
+            boutton_supprimer.classList.add("bouton-supprimer");
 
             liste.appendChild(boutton_modifier)
             liste.appendChild(boutton_supprimer)
@@ -45,7 +45,7 @@ function createTask() {
         fetch('/api/liste', {
             method: "POST",
             headers: {
-                "content-Type": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({ nom })
         }).then(() => loadListes());
@@ -58,7 +58,7 @@ function updateListe(id) {
         fetch('/api/liste/${id}', {
             method:"PUT",
             headers: {
-                "content-Type": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({nom})
         }).then (() => loadListes());
