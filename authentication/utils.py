@@ -8,21 +8,20 @@ def generate_token(user) :
         'email' : user.email
     }
 
-    return jwt.encode(payload, settings.SECRET_KEY, algorithm = ['HS256'])
+    return jwt.encode(payload, settings.SECRET_KEY, algorithm = 'HS256')
 
 
 
 def verify_user (request):
-    token = request.cookies.get('access_token')
+    token = request.COOKIES.get('access_token')
     if not token:
         return None
     
     try :
         decoded = jwt.decode(token, settings.SECRET_KEY, algorithms = ['HS256'])
         user_id = decoded.get('user_id')
-        return Utilisateur.objects.get(id = user_id)
-    
-    except(jwt.ExpiredSignatureError, jwt.InvalidTokenError, IndexError):
+        return Utilisateur.objects.get(id=user_id)
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
         return None
     except Utilisateur.DoesNotExist:
         return None 
