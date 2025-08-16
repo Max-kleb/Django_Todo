@@ -4,10 +4,10 @@ Tout ceci ne marche pas forcement. j'ai juste mieux organisé ke cide
 
 
 let container = document.querySelector(".liste-container");
-let createBtn = document.getElementById(".add-btn")
+let createBtn = document.querySelector(".add-btn")
 
 function loadListes() {
-    fetch('api/liste')
+    fetch('/api/liste')
     .then(response => response.json())
     .then(data => {
         container.innerHTML = "";
@@ -39,7 +39,7 @@ function loadListes() {
 document.addEventListener("DOMContentLoaded", loadListes);
 
 
-function createTask() {
+function createListe() {
     const nom = prompt ("Nom de la nouvelle liste :");
     if (nom) {
         fetch('/api/liste', {
@@ -73,4 +73,5 @@ function deleteListe(id) {
     }
 };
 
-
+// connexion du button Add
+createBtn.addEventListener("click", createListe); 
