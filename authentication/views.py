@@ -44,6 +44,7 @@ def signup(request):
         samesite='Lax',
         max_age=24 * 3600
     )
+    return response
     # return JsonResponse({'success': True, 'message': 'Inscription réussie', 'token': token}, status=201)
 
 

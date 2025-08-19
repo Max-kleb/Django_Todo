@@ -1,77 +1,105 @@
-/* ########
-Tout ceci ne marche pas forcement. j'ai juste mieux organisé ke cide
-*/// ########
-
-
 let container = document.querySelector(".liste-container");
-let createBtn = document.querySelector(".add-btn")
+let listeInput = document.querySelector(".liste-input");
+let addButton = document.querySelector(".bouton-ajouter");
+
+function updateListItem(id, texte_liste) {
+    let nouveauNom = prompt("Nouveau nom :", texte_liste.innerText);
+    if (!nouveauNom || !nouveauNom.trim()) return;
+
+    fetch(`/api/liste/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nom: nouveauNom.trim() })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            texte_liste.innerText = data.nom;
+        } else {
+            alert(data.message || "Erreur lors de la mise à jour");
+        }
+    })
+    .catch(() => alert("Erreur réseau"));
+}
+
+function deleteListItem(id, item) {
+    if (!confirm("Supprimer cette liste ?")) return;
+
+    fetch(`/api/liste/${id}`, { method: "DELETE" })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            item.remove();
+        } else {
+            alert(data.message || "Erreur lors de la suppression");
+        }
+    })
+    .catch(() => alert("Erreur réseau"));
+}
+
+function createListItem(id, name) {
+    let item = document.createElement("div");
+    item.classList.add("liste-item");
+    item.id = id;
+
+    let texte_liste = document.createElement("span");
+    texte_liste.innerText = name;
+
+    let bouton_modifier = document.createElement("button");
+    bouton_modifier.classList.add("bouton-modifier");
+    bouton_modifier.innerText = "Modifier";
+    bouton_modifier.addEventListener("click", () => {
+        updateListItem(id, texte_liste);
+    });
+
+    let bouton_supprimer = document.createElement("button");
+    bouton_supprimer.classList.add("bouton-supprimer");
+    bouton_supprimer.innerText = "Supprimer";
+    bouton_supprimer.addEventListener("click", () => {
+        deleteListItem(id, item);
+    });
+
+    item.appendChild(texte_liste);
+    item.appendChild(bouton_modifier);
+    item.appendChild(bouton_supprimer);
+
+    return item;
+}
 
 function loadListes() {
-    fetch('/api/liste')
-    .then(response => response.json())
+    console.log("Loading lists");
+    fetch("/api/liste")
+    .then(r => r.json())
     .then(data => {
         container.innerHTML = "";
-
         data.listes.forEach(l => {
-            const liste = document.createElement("div");
-            liste.classList.add("liste");
-            
-            texte_liste = document.createElement("span");
-            texte_liste.innerText = l.nom
-
-            boutton_modifier = document.createElement("span");
-            boutton_modifier.classList.add("bouton-modifier");
-
-            boutton_supprimer = document.createElement("span");
-            boutton_supprimer.classList.add("bouton-supprimer");
-
-            liste.appendChild(boutton_modifier)
-            liste.appendChild(boutton_supprimer)
-
+            console.log("Hello world");
+            let liste = createListItem(l.id, l.nom);
             container.appendChild(liste);
         });
     })
-    .catch(error => {
-        console.log(error);
-        // alert(error);
-    });
+    .catch(e => console.log(e));
 }
+
+addButton.addEventListener("click", ()=> {
+    let name = listeInput.value.trim();
+    if (!name) return;
+
+    fetch("/api/liste", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nom: name })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            listeInput.value = "";
+            loadListes();
+        } else {
+            alert(data.message || "Erreur lors de la création");
+        }
+    })
+    .catch(e => console.log(e));
+});
+
 document.addEventListener("DOMContentLoaded", loadListes);
-
-
-function createListe() {
-    const nom = prompt ("Nom de la nouvelle liste :");
-    if (nom) {
-        fetch('/api/liste', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ nom })
-        }).then(() => loadListes());
-    }
-}
-
-function updateListe(id) {
-    const nom = prompt("Nouveau :");
-    if (nom) {
-        fetch('/api/liste/${id}', {
-            method:"PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({nom})
-        }).then (() => loadListes());
-    }
-};
-
-function deleteListe(id) {
-    if (confirm("supprimer cette liste ?")){
-        fetch('/api/liste/${id}',{
-            method:"DELETE"
-        }).then(() => loadListes());
-    }
-};
-
-// connexion du button Add
-createBtn.addEventListener("click", createListe); 
