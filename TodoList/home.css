@@ -1,0 +1,101 @@
+body{
+    background-color: #1b1c1c;
+}
+
+header
+{
+    display: flex; 
+    height: 60px;
+    margin-bottom: 10px;
+    color: #ffff;
+    padding-left: 10px;
+    /*background-color: aliceblue;*/
+    font-style: normal;
+    font-weight: bold;
+}
+
+.big-image{
+    width: 40px ;
+}
+
+/*#left-header{
+    float: left;
+    width: 93%;
+}*/
+
+#right-head{
+    margin-left: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+#right-head > div > img{
+    width: 25px;
+}
+#container{
+    background-color: #1b1c1c;
+    color: #ffff;
+    height: 800px;
+}
+#left-bloc{
+    width: 20%;
+    height: 800px;
+    float: left;
+    background-color: #1b1c1c;
+}
+
+#right-bloc{
+    width: 80%;
+    height: 800px;
+    background-color: #1b1c1c;
+    display:grid;
+}
+
+.mini-box{
+    /*color: rgba(255, 200, 0, 0.423);*/
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 15px;
+    
+}
+
+#btn-create{
+    
+    height: 40px;
+    width: 29%;
+    margin-left: 10px;
+    margin-top: 15px;
+    padding-top: 10px;
+    background-color: rgb(45, 50, 48);
+    border-radius: 15px;
+}
+
+#box-center{
+    width: 600px;
+    height: 450px ;
+    background-color:#131314;
+    margin: 100px auto;
+    border-radius: 4%;
+    padding: 10px;
+}
+
+img{
+    width: 20px;
+    margin-right: 9px;
+}
+
+
+#trois_points{
+    /*display: flex;*/
+    margin-left: auto;
+    width: 20px;
+}   
+
+
+#task_bar{
+   /* margin-bottom: 20px;*/
+   float: left;
+}
+#ajout_tache{
+    color: #729fcf;
+}
