@@ -7,17 +7,74 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-            <div><img src="images_css/align-justify.png" alt=""></div>
-            <div><img src="images_css/circle-check-big3.png" alt="" class="big-image"> Tasks </div>
-        <div id="right-head">
-            <div><img src="images_css/circle-question-mark.png" alt=""></div>
-            <div><img src="images_css/grip.png" alt=""></div>
-            <div><img src="images_css/user-round.png" alt=""></div>
-        </div>    
-    </header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <div class="hamburger">
+                <img src="images_css/hamburger.svg" alt="">
+            </div>
+            <div class="logo">
+                <img class="logoIcon" src="images_css/logo.svg" alt="" class="big-image">
+                <span class="logoTitle">Tasks</span>
+            </div>
+        </div>
+        <div class="profile">
+            <img class="profilePicture" src="images_css/default_profile.jpg" alt="">
+        </div>
+    </nav>
 
-    <div id="container" >
+    <main class="main">
+        <div class="sidebar">
+            <div class="btn-create">
+                <img src="images_css/plus.svg"  class="icon">
+                <span>Creer</span>    
+            </div>
+
+            <div class="all-tasks">
+                <img src="images_css/circle-check.svg" class="icon">
+                <span>Toute les taches</span>
+            </div>
+            <div class="favorites">
+                <img src="images_css/star.svg"  class="icon">
+                <span>Favoris</span>
+            </div>
+            <div class="lists-dropdown">
+                <span>Listes</span>
+                <div class="reveal">
+                    <div class="reveal-icon arrow-up"></div>
+                </div>
+            </div>
+            <div class="lists-container">
+                <div class="list-item">
+                    <input type="checkbox"> <label>Hacktober</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>Chessmate</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>My tasks</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>Apps to code</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>Coding platform</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>KShare</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>Kof</label>
+                </div>
+                <div class="list-item">
+                    <input type="checkbox"> <label>UML Drawer</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="content"></div>
+    </main>
+
+    <!-- <div id="container" >
         <div id="left-bloc" >
             <div id="btn-create"><img src="images_css/plus.png" alt=""> Creer </div>
             <div class="mini-box"><img src="images_css/circle-check-big2.png" alt=""> Toutes les taches</div>
@@ -35,6 +92,7 @@
         </div>
     </div>
 
-    <footer></footer>
+    <footer></footer> -->
+    <script src="app.js"></script>
 </body>
 </html>
