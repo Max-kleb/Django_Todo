@@ -51,6 +51,11 @@ body  {
     height: 24px;
 }
 
+
+.nav-links .hamburger .hide{
+    display: none !important;
+}
+
 .nav-links .logo {
     display: flex;
     gap: 4px;
@@ -89,6 +94,7 @@ body  {
     width: 240px;
     padding: 20px;
     font-size: 20px;
+    display: block;
 }
 
 .main .sidebar .btn-create {
