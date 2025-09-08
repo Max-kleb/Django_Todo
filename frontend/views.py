@@ -5,7 +5,7 @@ def home(request):
     user = verify_user(request)
     if not user: return redirect("/login")
     
-    return render(request, 'index.html')
+    return render(request, "home.html")
 
 
 def login(request):

@@ -2,6 +2,8 @@ let container = document.querySelector(".liste-container");
 let listeInput = document.querySelector(".liste-input");
 let addButton = document.querySelector(".bouton-ajouter");
 
+
+/*
 function updateListItem(id, texte_liste) {
     let nouveauNom = prompt("Nouveau nom :", texte_liste.innerText);
     if (!nouveauNom || !nouveauNom.trim()) return;
@@ -102,4 +104,46 @@ addButton.addEventListener("click", ()=> {
     .catch(e => console.log(e));
 });
 
-document.addEventListener("DOMContentLoaded", loadListes);
+document.addEventListener("DOMContentLoaded", loadListes); */
+
+/****************************************************/
+
+document.addEventListener("DOMContentLoaded", function(){
+    loadLists();
+}); 
+
+async function loadLists(){
+
+    try {
+        const response = await fetch('api/liste');
+        console.log("debut du chagement !!")
+        const data = await response.json();
+
+        console.log("Données reçues:", data);
+
+        displayLists(data.listes);
+        console.log(" c'est bon ");
+    } catch (error) {
+        console.log(" impossible de charger les listes");
+    }
+}
+
+function displayLists(lists){
+    const container = document.querySelector(".lists-container");
+    
+    if (lists.length === 0){
+        container.innerHTML = '<div class="empty">Aucune liste disponible</div>'; 
+        return;
+    }
+
+    container.innerHTML = '';
+
+    lists.forEach(list =>{
+        const listItem = document.createElement('div');
+        listItem.className = "list-item" ;
+        listItem.innerHTML =  `<input type="checkbox" id="list-${list.id}">
+        <label>${list.nom}</label> `;
+
+        container.appendChild(listItem);
+    });
+}

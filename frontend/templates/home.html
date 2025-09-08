@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <div class="hamburger">
+                <img src="{% static 'images_css/hamburger.svg' %}" alt="">
+            </div>
+            <div class="logo">
+                <img class="logoIcon" src="{% static 'images_css/logo.svg' %}"" alt="" class="big-image">
+                <span class="logoTitle">Tasks</span>
+            </div>
+        </div>
+        <div class="profile">
+            <img class="profilePicture" src="{% static 'images_css/default_profile.jpg' %}"" alt="">
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="sidebar">
+            <div class="btn-create">
+                <img src="{% static 'images_css/plus.svg' %}"  class="icon">
+                <span>Creer</span>    
+            </div>
+
+            <div class="all-tasks">
+                <img src="{% static 'images_css/circle-check.svg' %}" class="icon">
+                <span>Toute les taches</span>
+            </div>
+            <div class="favorites">
+                <img src="{% static 'images_css/star.svg' %}"  class="icon">
+                <span>Favoris</span>
+            </div>
+            <div class="lists-dropdown">
+                <span>Listes</span>
+                <div class="reveal">
+                    <div class="reveal-icon arrow-up"></div>
+                </div>
+            </div>
+            <div class="lists-container">
+            
+            </div>
+        </div>
+
+        <div class="content"></div>
+    </main>
+
+    <script src="{% static 'js/app.js' %}"></script> 
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
