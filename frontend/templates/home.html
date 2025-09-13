@@ -1,4 +1,4 @@
-{% load static %}
+ {% load static %} 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +50,14 @@
             </div>
         </div>
 
-        <div class="content"></div>
+        <div class="content">
+
+            <div class="create-box">
+                <label for="create-name"> <span class="title"> Create new list </span><br> </label>
+                <input type="text" id="create1-box">
+            </div>
+
+        </div>
     </main>
 
     <script src="{% static 'js/app.js' %}"></script> 

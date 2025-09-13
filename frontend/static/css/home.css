@@ -196,7 +196,14 @@ body  {
 }
 
 
-.content {
+.main .content {
     background-color: #000;
     flex-grow: 1;
 }
+
+/*
+.main .content .create-box {
+    padding: 20px;
+    margin: 300 px;
+    border-bottom: 1px solid #e8390d;
+}*/
