@@ -7,8 +7,8 @@ let listsContainer = document.querySelector(".lists-container");
 let sidebar = document.querySelector(".sidebar");
 
 
- console.log("Sidebar:", sidebar);
- console.log("Hamburger button:", hamburgerButton);
+console.log("Sidebar:", sidebar);
+console.log("Hamburger button:", hamburgerButton);
 
 revelButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -27,3 +27,5 @@ hamburgerButton.addEventListener("click" , (event) => {
     console.log("Classes de la sidebar:", sidebar.classList);
     console.log("Style display:", window.getComputedStyle(sidebar).display);
 } ) ;
+
+
